@@ -16,10 +16,10 @@ public class Principal {
             }
         }
 
-        alunos.sort((a1,a2) -> a1.nome.compareTo(a2.nome));
+        listaAlunos.sort((a1,a2) -> a1.nome.compareTo(a2.nome));
         
-        
-        for (Aluno aluno : alunos) {
+        for (Aluno a : listaAlunos) {
             System.out.println(aluno);
         }
+        
     }
