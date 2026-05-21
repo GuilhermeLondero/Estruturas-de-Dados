@@ -3,15 +3,15 @@ import java.util.Scanner;
 
 /**
  * Classe principal do sistema de gerenciamento de figurinhas da Copa 2026.
- * Controla o menu, o cadastro, a listagem e a lógica de match para trocas.
+ * Controla o menu, o cadastro, a listagem e a logica de match para trocas.
  *
  * Listas utilizadas:
- *     lista_repetidas_pessoais - Figurinhas repetidas do usuário
- *     lista_desejadas_pessoais - Figurinhas desejadas pelo usuário
- *     lista_repetidas_outro    - Figurinhas repetidas de outra pessoa (carregadas por arquivo)
- *     lista_desejadas_outro    - Figurinhas desejadas de outra pessoa (carregadas por arquivo)
+ *     lista_repetidas_pessoais - Figurinhas repetidas do usuario
+ *     lista_desejadas_pessoais - Figurinhas desejadas pelo usuario
+ *     lista_repetidas_outro - Figurinhas repetidas de outra pessoa
+ *     lista_desejadas_outro - Figurinhas desejadas de outra pessoa
  *
- * Arquivos CSV pessoais (carregados automaticamente ao iniciar):
+ * Arquivos CSV pessoais (carregados ao iniciar):
  *     figuras_repetidas_pessoais.csv
  *     figuras_desejadas_pessoais.csv
  */
@@ -21,12 +21,12 @@ public class SistemaCopa {
     static String ARQUIVO_DESEJADAS_PESSOAIS = "figuras_desejadas_pessoais.csv";
 
     /**
-     * Solicita os dados de uma figurinha ao usuário, cria o objeto Figura,
-     * adiciona na lista e persiste no arquivo CSV correspondente.
+     * Solicita os dados de uma figurinha ao usuario, cria o objeto Figura,
+     * adiciona na lista e salva no arquivo CSV.
      *
-     * @param lista       ArrayList de Figura onde a nova figurinha será adicionada
-     * @param nomeArquivo Nome do arquivo CSV onde a figurinha será salva
-     * @param teclado     Scanner utilizado para leitura das entradas do usuário
+     * @param lista ArrayList de Figura onde a nova figurinha sera adicionada
+     * @param nomeArquivo Nome do arquivo CSV onde a figurinha sera salva
+     * @param teclado Scanner utilizado para leitura das entradas do usuario
      */
     public static void cadastrarFigura(ArrayList<Figura> lista, String nomeArquivo, Scanner teclado) {
         System.out.print("Nome da selecao: ");
@@ -57,13 +57,12 @@ public class SistemaCopa {
     }
 
     /**
-     * Solicita o caminho de um arquivo CSV de outra pessoa, carrega as figurinhas,
-     * exibe a lista completa e em seguida exibe as figurinhas que dão match
-     * com a lista pessoal fornecida.
+     * Carrega um arquivo CSV de outra pessoa, exibe a lista
+     * e em seguida exibe os matches com a lista pessoal.
      *
-     * @param listaOutro        ArrayList de Figura que receberá as figurinhas carregadas do arquivo
+     * @param listaOutro ArrayList de Figura que recebera as figurinhas do arquivo
      * @param listaMatchPessoal ArrayList de Figura pessoal usada para identificar matches
-     * @param teclado           Scanner utilizado para leitura do caminho do arquivo
+     * @param teclado Scanner utilizado para leitura do caminho do arquivo
      */
     public static void carregarEExibirOutro(ArrayList<Figura> listaOutro, ArrayList<Figura> listaMatchPessoal, Scanner teclado) {
         listaOutro.clear();
@@ -81,11 +80,10 @@ public class SistemaCopa {
     }
 
     /**
-     * Compara duas listas de figurinhas e exibe as que aparecem em ambas,
-     * ou seja, as figurinhas que podem ser trocadas entre as duas pessoas.
+     * Compara duas listas de figurinhas e exibe as que aparecem em ambas.
      *
-     * @param listaOutro   ArrayList de Figura de outra pessoa (repetidas ou desejadas)
-     * @param listaPessoal ArrayList de Figura pessoal correspondente para comparação
+     * @param listaOutro ArrayList de Figura de outra pessoa
+     * @param listaPessoal ArrayList de Figura pessoal para comparacao
      */
     public static void exibirMatches(ArrayList<Figura> listaOutro, ArrayList<Figura> listaPessoal) {
         int totalMatches = 0;
@@ -100,18 +98,17 @@ public class SistemaCopa {
         if (totalMatches == 0) {
             System.out.println("Nenhum match encontrado.");
         } else {
-            System.out.println("---------------------------------");
             System.out.println("Total de matches: " + totalMatches);
         }
     }
 
     /**
-     * Exibe o menu principal e processa as opções escolhidas pelo usuário.
+     * Exibe o menu principal e processa as opcoes escolhidas pelo usuario.
      *
-     * @param lista_repetidas_pessoais ArrayList de Figura com as repetidas do usuário
-     * @param lista_desejadas_pessoais ArrayList de Figura com as desejadas do usuário
-     * @param lista_repetidas_outro    ArrayList de Figura com as repetidas de outra pessoa
-     * @param lista_desejadas_outro    ArrayList de Figura com as desejadas de outra pessoa
+     * @param lista_repetidas_pessoais ArrayList de Figura com as repetidas do usuario
+     * @param lista_desejadas_pessoais ArrayList de Figura com as desejadas do usuario
+     * @param lista_repetidas_outro ArrayList de Figura com as repetidas de outra pessoa
+     * @param lista_desejadas_outro ArrayList de Figura com as desejadas de outra pessoa
      */
     public static void menu(
         ArrayList<Figura> lista_repetidas_pessoais,
@@ -122,8 +119,8 @@ public class SistemaCopa {
         Scanner teclado = new Scanner(System.in);
         String opcao = "";
 
-        do {
-            System.out.println("\n========= SISTEMA DE FIGURINHAS COPA 2026 =========");
+        while (!opcao.equals("7")) {
+            System.out.println("\n--- SISTEMA DE FIGURINHAS COPA 2026 ---");
             System.out.println("1 - Cadastrar figurinhas repetidas pessoais");
             System.out.println("2 - Listar figurinhas repetidas pessoais");
             System.out.println("3 - Cadastrar figurinhas desejadas pessoais");
@@ -134,49 +131,38 @@ public class SistemaCopa {
             System.out.print("Opcao: ");
             opcao = teclado.nextLine();
 
-            switch (opcao) {
-                case "1":
-                    cadastrarFigura(lista_repetidas_pessoais, ARQUIVO_REPETIDAS_PESSOAIS, teclado);
-                    break;
-                case "2":
-                    System.out.println("\n--- Figurinhas repetidas pessoais ---");
-                    GerenciadorCsv.exibirLista(lista_repetidas_pessoais);
-                    break;
-                case "3":
-                    cadastrarFigura(lista_desejadas_pessoais, ARQUIVO_DESEJADAS_PESSOAIS, teclado);
-                    break;
-                case "4":
-                    System.out.println("\n--- Figurinhas desejadas pessoais ---");
-                    GerenciadorCsv.exibirLista(lista_desejadas_pessoais);
-                    break;
-                case "5":
-                    carregarEExibirOutro(lista_repetidas_outro, lista_desejadas_pessoais, teclado);
-                    break;
-                case "6":
-                    carregarEExibirOutro(lista_desejadas_outro, lista_repetidas_pessoais, teclado);
-                    break;
-                case "7":
-                    System.out.println("Encerrando o sistema... Ate logo!");
-                    break;
-                default:
-                    System.out.println("Opcao invalida!");
-                    break;
+            if (opcao.equals("1")) {
+                cadastrarFigura(lista_repetidas_pessoais, ARQUIVO_REPETIDAS_PESSOAIS, teclado);
+            } else if (opcao.equals("2")) {
+                System.out.println("\n--- Figurinhas repetidas pessoais ---");
+                GerenciadorCsv.exibirLista(lista_repetidas_pessoais);
+            } else if (opcao.equals("3")) {
+                cadastrarFigura(lista_desejadas_pessoais, ARQUIVO_DESEJADAS_PESSOAIS, teclado);
+            } else if (opcao.equals("4")) {
+                System.out.println("\n--- Figurinhas desejadas pessoais ---");
+                GerenciadorCsv.exibirLista(lista_desejadas_pessoais);
+            } else if (opcao.equals("5")) {
+                carregarEExibirOutro(lista_repetidas_outro, lista_desejadas_pessoais, teclado);
+            } else if (opcao.equals("6")) {
+                carregarEExibirOutro(lista_desejadas_outro, lista_repetidas_pessoais, teclado);
+            } else if (opcao.equals("7")) {
+                System.out.println("Encerrando o sistema... Ate logo!");
+            } else {
+                System.out.println("Opcao invalida!");
             }
-        } while (!opcao.equals("7"));
+        }
     }
 
     /**
-     * Ponto de entrada do programa.
-     * Inicializa as quatro listas, carrega os CSVs pessoais automaticamente
-     * e inicia o menu principal.
+     * Metodo principal. Inicializa as listas, carrega os CSVs pessoais e abre o menu.
      *
-     * @param args Argumentos de linha de comando (não utilizados)
+     * @param args Argumentos de linha de comando (nao utilizados)
      */
     public static void main(String[] args) {
         ArrayList<Figura> lista_repetidas_pessoais = new ArrayList<>();
         ArrayList<Figura> lista_desejadas_pessoais = new ArrayList<>();
-        ArrayList<Figura> lista_repetidas_outro    = new ArrayList<>();
-        ArrayList<Figura> lista_desejadas_outro    = new ArrayList<>();
+        ArrayList<Figura> lista_repetidas_outro = new ArrayList<>();
+        ArrayList<Figura> lista_desejadas_outro = new ArrayList<>();
 
         System.out.println("Carregando dados pessoais...");
         GerenciadorCsv.carregarDeCsv(lista_repetidas_pessoais, ARQUIVO_REPETIDAS_PESSOAIS);

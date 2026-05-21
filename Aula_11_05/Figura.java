@@ -1,12 +1,12 @@
 /**
- * Representa uma figurinha do álbum da Copa do Mundo.
+ * Representa uma figurinha do album da Copa do Mundo.
  *
  * Atributos:
- *     nomeSelecao  - Nome da seleção à qual a figurinha pertence. Ex: "Brasil", "Argentina"
- *     numeroFigura - Número identificador da figurinha dentro do álbum
- *     descricao    - Descrição do conteúdo da figurinha. Ex: nome do jogador ou da seleção
- *     quantidade   - Quantidade de cópias dessa figurinha disponíveis
- *     rara         - Indica se a figurinha é do tipo rara (true) ou comum (false)
+ *     nomeSelecao - Nome da selecao a qual a figurinha pertence. Ex: "Brasil", "Argentina"
+ *     numeroFigura - Numero identificador da figurinha dentro do album
+ *     descricao - Descricao do conteudo da figurinha. Ex: nome do jogador ou da selecao
+ *     quantidade - Quantidade de copias dessa figurinha disponiveis
+ *     rara - Indica se a figurinha e do tipo rara (true) ou comum (false)
  */
 public class Figura {
 
@@ -19,11 +19,11 @@ public class Figura {
     /**
      * Construtor da classe Figura.
      *
-     * @param nomeSelecao  Nome da seleção à qual a figurinha pertence. Ex: "Brasil", "França"
-     * @param numeroFigura Número identificador da figurinha dentro do álbum
-     * @param descricao    Descrição do conteúdo da figurinha. Ex: nome do jogador ou da seleção
-     * @param quantidade   Quantidade de cópias dessa figurinha disponíveis
-     * @param rara         Indica se a figurinha é do tipo rara (true) ou comum (false)
+     * @param nomeSelecao  Nome da selecao. Ex: "Brasil", "Franca"
+     * @param numeroFigura Numero identificador da figurinha no album
+     * @param descricao    Descricao do conteudo da figurinha
+     * @param quantidade   Quantidade de copias dessa figurinha
+     * @param rara         true se a figurinha for rara, false se for comum
      */
     public Figura(String nomeSelecao, int numeroFigura, String descricao, int quantidade, boolean rara) {
         this.nomeSelecao = nomeSelecao;
@@ -34,114 +34,81 @@ public class Figura {
     }
 
     /**
-     * Verifica se duas figurinhas são iguais com base na seleção e no número da figurinha.
-     * Dois objetos Figura são considerados iguais se tiverem o mesmo nomeSelecao e numeroFigura.
+     * Compara duas figurinhas com base na selecao e no numero da figurinha.
      *
      * @param obj Objeto a ser comparado com a figurinha atual
-     * @return true se nomeSelecao e numeroFigura forem iguais, false caso contrário
+     * @return true se nomeSelecao e numeroFigura forem iguais, false caso contrario
      */
-    @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Figura outra = (Figura) obj;
-        return this.numeroFigura == outra.numeroFigura &&
-               this.nomeSelecao.equalsIgnoreCase(outra.nomeSelecao);
+        if (obj instanceof Figura) {
+            Figura outra = (Figura) obj;
+            return this.numeroFigura == outra.numeroFigura &&
+                   this.nomeSelecao.equals(outra.nomeSelecao);
+        }
+        return false;
     }
 
     /**
-     * Retorna uma representação textual da figurinha para exibição no console.
-     * Formato: [nomeSelecao #numeroFigura] descricao | Qtd: quantidade | rara/comum
+     * Retorna uma representacao em texto da figurinha.
      *
      * @return String formatada com os dados da figurinha
      */
-    @Override
     public String toString() {
-        String tipoRara = rara ? "RARA" : "comum";
-        return "[" + nomeSelecao + " #" + numeroFigura + "] " +
-               descricao + " | Qtd: " + quantidade + " | " + tipoRara;
+        String tipo;
+        if (rara) {
+            tipo = "RARA";
+        } else {
+            tipo = "comum";
+        }
+        return "[" + nomeSelecao + " #" + numeroFigura + "] " + descricao +
+               " | Qtd: " + quantidade + " | " + tipo;
     }
 
     /**
-     * Converte a figurinha em uma linha no formato CSV para gravação em arquivo.
-     * Formato gerado: nomeSelecao,numeroFigura,descricao,quantidade,rara
+     * Converte a figurinha em uma linha no formato CSV.
      *
-     * @return String no formato CSV representando a figurinha
+     * @return String no formato: nomeSelecao,numeroFigura,descricao,quantidade,rara
      */
     public String toCSV() {
         return nomeSelecao + "," + numeroFigura + "," + descricao + "," + quantidade + "," + rara;
     }
 
-    // -------------------------
-    // Getters e Setters
-    // -------------------------
-
-    /**
-     * @return Nome da seleção da figurinha
-     */
     public String getNomeSelecao() {
         return nomeSelecao;
     }
 
-    /**
-     * @param nomeSelecao Nome da seleção a ser atribuído. Ex: "Brasil", "França"
-     */
     public void setNomeSelecao(String nomeSelecao) {
         this.nomeSelecao = nomeSelecao;
     }
 
-    /**
-     * @return Número identificador da figurinha no álbum
-     */
     public int getNumeroFigura() {
         return numeroFigura;
     }
 
-    /**
-     * @param numeroFigura Número inteiro a ser atribuído
-     */
     public void setNumeroFigura(int numeroFigura) {
         this.numeroFigura = numeroFigura;
     }
 
-    /**
-     * @return Descrição da figurinha
-     */
     public String getDescricao() {
         return descricao;
     }
 
-    /**
-     * @param descricao Texto descritivo da figurinha. Ex: nome do jogador
-     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    /**
-     * @return Quantidade de cópias disponíveis dessa figurinha
-     */
     public int getQuantidade() {
         return quantidade;
     }
 
-    /**
-     * @param quantidade Número inteiro de cópias a ser atribuído
-     */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
-    /**
-     * @return true se a figurinha é rara, false se é comum
-     */
     public boolean isRara() {
         return rara;
     }
 
-    /**
-     * @param rara true para rara, false para comum
-     */
     public void setRara(boolean rara) {
         this.rara = rara;
     }
